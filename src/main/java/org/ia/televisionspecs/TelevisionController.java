@@ -1,16 +1,21 @@
 package org.ia.televisionspecs;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 public class TelevisionController {
 
     Storage storage;
+    RestTemplate restTemplate;
 
-    public TelevisionController(Storage storage) {
+    public TelevisionController(Storage storage, RestTemplate restTemplate) {
+
         this.storage = storage;
+        this.restTemplate = restTemplate;
     }
 
 
@@ -42,6 +47,12 @@ public class TelevisionController {
             storedTelevision.setSpecs(product.getSpecs());
             return storage.save(storedTelevision);
         }).orElseThrow( () -> new TelevisionException("No tv with id " + id));
+    }
+    @GetMapping("/reviews")
+    public Review getReviews() {
+        Review review = restTemplate.getForObject("http://192.168.1.166:65444/reviews/1", Review.class);
+        System.out.println(review.toString());
+        return review;
     }
 
 }
