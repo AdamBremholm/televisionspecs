@@ -2,7 +2,8 @@ pipeline {
     // run on jenkins nodes tha has java 8 label
     agent {
         docker {
-            image 'maven:3-alpine', 'alpine/git'
+            image 'maven:3-alpine'
+            image 'alpine/git'
             args '-v /root/.m2:/root/.m2'
             }
     }
