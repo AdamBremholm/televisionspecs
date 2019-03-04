@@ -7,12 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Data
-@Entity
 public class Review {
 
-    private @Id
-    @GeneratedValue
-    Long id;
+    private Long id;
     private String model;
     private String review;
     private float rating;

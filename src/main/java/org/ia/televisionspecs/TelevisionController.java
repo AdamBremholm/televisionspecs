@@ -1,6 +1,8 @@
 package org.ia.televisionspecs;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.netflix.discovery.EurekaClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -56,20 +58,25 @@ public class TelevisionController {
         }).orElseThrow( () -> new TelevisionException("No tv with id " + id));
     }
     @GetMapping("/getreviews")
-    public List<Review> getReviews() {
-        String accesstoken = "";
+    public Review getReviews() {
+        //String accesstoken = "";
 
-        accesstoken = getAccessToken("user", "password");
+      //  accesstoken = getAccessToken("user", "password");
 
-
-        HttpHeaders headers = new HttpHeaders();
+       /* HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(accesstoken);
         HttpEntity<?> httpEntity = new HttpEntity<Object>(headers);
-        ResponseEntity<List<Review>> responseEntity = restTemplate.exchange("http://localhost:8080/reviews/reviews", HttpMethod.GET, httpEntity, new ParameterizedTypeReference<List<Review>>() {
-        });
+        ResponseEntity<List<Review>> responseEntity = restTemplate.exchange("http://localhost:8080/reviews/", HttpMethod.GET, httpEntity, new ParameterizedTypeReference<List<Review>>() {
+        });*/
 
-        System.out.println(responseEntity.getBody().toString());
-        return responseEntity.getBody();
+        Review review = restTemplate.getForObject("http://review-app/reviews/1", Review.class);
+        System.out.println(review);
+        return review;
+
+
+
+        //System.out.println(responseEntity.getBody().toString());
+      //  return responseEntity.getBody();
     }
 
     public String getAccessToken(String username, String password) {
