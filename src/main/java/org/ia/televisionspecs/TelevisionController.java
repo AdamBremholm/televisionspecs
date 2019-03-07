@@ -66,14 +66,16 @@ public class TelevisionController {
        /* HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(accesstoken);
         HttpEntity<?> httpEntity = new HttpEntity<Object>(headers);
-        ResponseEntity<List<Review>> responseEntity = restTemplate.exchange("http://localhost:8080/reviews/", HttpMethod.GET, httpEntity, new ParameterizedTypeReference<List<Review>>() {
+        ResponseEntity<List<Review>> responseEntity = restTemplate.exchange(
+        "http://localhost:8080/reviews/",
+        HttpMethod.GET,
+        httpEntity,
+        new ParameterizedTypeReference<List<Review>>() {
         });*/
 
         Review review = restTemplate.getForObject("http://review-app/reviews/1", Review.class);
         System.out.println(review);
         return review;
-
-
 
         //System.out.println(responseEntity.getBody().toString());
       //  return responseEntity.getBody();
@@ -104,6 +106,14 @@ public class TelevisionController {
             str = str.substring(0, str.length() - 1);
         }
         return str;
+    }
+
+    @PostMapping("/manytelevisions")
+    public List<Television> addFromData(@RequestBody TelevisionWrapper televisionWrapper) {
+
+        televisionWrapper.televisions.stream().forEach( television -> storage.save(television));
+
+        return storage.findAll();
     }
 
 }

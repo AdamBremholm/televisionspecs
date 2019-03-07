@@ -11,8 +11,6 @@ public class Review {
 
     private Long id;
     private String model;
-    private String review;
     private float rating;
-    private String author;
 
 }
